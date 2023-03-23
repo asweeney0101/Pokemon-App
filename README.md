@@ -2,4 +2,4 @@
 
 ## Description
 
-The first JavaScript App we are building for the career foundry course.
+The first JavaScript App we are building for the Career Foundry course.
