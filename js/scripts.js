@@ -8,11 +8,13 @@ let pokemonRepository = (function () {
     function add (pokemon) {
       repository.push(pokemon);
     }
+
    function loadList () {
-      fetch("https://pokeapi.co/api/v2/pokemon/").then(function(response){
+      return fetch("https://pokeapi.co/api/v2/pokemon/")
+      .then(function(response){
         return response.json();
       })
-      .then()(function (data) {
+      .then(function (data) {
         data.results.forEach(function (item) {
           let pokemon = {
             name: item.name,
@@ -25,6 +27,14 @@ let pokemonRepository = (function () {
         console.error(error);
       });
    }
+
+   function loadDetails(pokemon){
+    return fetch(detailsUrl)
+    .then(function(response){
+
+    })
+  }
+
 
     function addListItem(pokemon){
       let pokemonList = document.querySelector(".pokemon-list");
@@ -44,14 +54,17 @@ let pokemonRepository = (function () {
     })
   }
 
+
     return {
       add: add,
       getAll: getAll,
       addListItem: addListItem,
-      loadList: loadList
+      loadList: loadList,
+      loadDetails: loadDetails
     };
   })();
 
+ 
 
   pokemonRepository.loadList().then(function () {
     pokemonRepository.getAll().forEach(function (pokemon) {
