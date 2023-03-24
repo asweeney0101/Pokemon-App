@@ -52,12 +52,12 @@ let pokemonRepository = (() => {
   let loadDetails = item => {
     return fetch(item.detailsUrl)
       .then(response => response.json())
-      .then(details => {
-        item.id = details.id;
-        item.height = details.height;
-        item.weight = details.weight;
-        item.image = details.sprites.front_default;
-        item.abilities = details.abilities.map(ability => ability.ability.name);
+      .then(pokemon => {
+        item.id = pokemon.id;
+        item.height = pokemon.height;
+        item.weight = pokemon.weight;
+        item.image = pokemon.sprites.front_default;
+        item.abilities = pokemon.abilities.map(ability => ability.ability.name);
       })
       .catch(errormessage => {
         console.error(errormessage);
