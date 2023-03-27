@@ -1,17 +1,19 @@
 .pokemon-list {
   display: flex;
-  border-style: solid;
-  flex-wrap: wrap;
-  list-style-type: none;
-  display: inline-block;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  border: solid;
+  padding: 20px;
+  max-width: 500px;
 }
+
 .pokemon-button {
   border: none;
   padding: 16px 32px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
@@ -19,4 +21,48 @@
 
 .pokemon-button:hover {
   transform: scale(1.1);
+}
+
+#details-container {
+  display: none;
+}
+
+#details-container.is-visible {
+  position: fixed;
+  padding: 20px;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+
+  /* to show it above other content */
+  z-index: 999;
+
+  /* to allow scrolling if the screen is not high enough*/
+  overflow: auto;
+
+  /* this is used to center the modal */
+  display: grid;
+  text-align: center;
+}
+
+.details-window {
+  margin: auto;
+  display: inline-block;
+  box-sizing: border-box;
+  background: #fff;
+  padding: 15px;
+  width: 100%;
+  max-width: 700px;
+  text-align: left;
+}
+
+.modal-close {
+  float: right;
+  border: 0;
+  background: none;
+  color: #777;
+  text-decoration: underline;
 }

@@ -19,16 +19,7 @@ let pokemonRepository = (() => {
     button.classList.add("pokemon-button");
     pokemonListItem.appendChild(button);
     pokemonList.appendChild(pokemonListItem);
-
-    let showDetails = pokemon => {
-      pokemonRepository.loadDetails(pokemon).then(() => {
-        console.log(pokemon);
-      });
-    };
-
-    button.addEventListener("click", () => {
-      showDetails(pokemon);
-    });
+    pokemonRepository.addClickListener(button, pokemon);
   };
 
   // Fetches the pokemon as objects from the API, adds them to the repository
@@ -49,6 +40,7 @@ let pokemonRepository = (() => {
       });
   };
 
+  // Adds details of the pokemon to the item
   let loadDetails = item => {
     return fetch(item.detailsUrl)
       .then(response => response.json())
@@ -64,17 +56,70 @@ let pokemonRepository = (() => {
       });
   };
 
+  // Function to add a click event listener to each pokemon button
+  let addClickListener = (button, pokemon) => {
+    button.addEventListener("click", () => {
+      pokemonRepository.showDetails(pokemon);
+    });
+  };
+
+    // Function to show details of a pokemon
+  let detailsContainer = document.querySelector("#details-container");
+ 
+  function showDetails(pokemon) {
+    pokemonRepository.loadDetails(pokemon).then(() => {
+      let modalTitle = document.querySelector("#details-container h1");
+      let modalImage = document.querySelector("#details-container img");
+      let modalText = document.querySelector("#details-container p");
+      
+      modalTitle.textContent = pokemon.name;
+      modalImage.setAttribute("src", pokemon.image);
+      modalText.innerHTML = `Height: ${pokemon.height} <br> Weight: ${pokemon.weight} <br> Abilities: ${pokemon.abilities.join(", ")}`;
+      
+      detailsContainer.classList.add("is-visible");
+    });
+  };
+  
+
+  function hideDetails() {
+    detailsContainer.classList.remove("is-visible");
+  };
+  
+  document.querySelector(".details-close").addEventListener("click", () => {
+    hideDetails();
+  });
+  
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && detailsContainer.classList.contains("is-visible")){
+      hideDetails();
+    }
+  });
+  
+  detailsContainer.addEventListener('click', (e) => {
+     if (e.target === detailsContainer) {
+      hideDetails();
+    }
+  });
+
   return {
     add,
     getAll,
     addListItem,
     loadList,
     loadDetails,
+    addClickListener,
+    showDetails
   };
 })();
+
+
+
+
 
 pokemonRepository.loadList().then(() => {
   pokemonRepository.getAll().forEach(pokemon => {
     pokemonRepository.addListItem(pokemon);
   });
 });
+
+
