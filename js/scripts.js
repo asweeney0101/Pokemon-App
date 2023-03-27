@@ -80,7 +80,6 @@ let pokemonRepository = (() => {
     });
   };
   
-
   function hideDetails() {
     detailsContainer.classList.remove("is-visible");
   };
@@ -111,9 +110,6 @@ let pokemonRepository = (() => {
     showDetails
   };
 })();
-
-
-
 
 
 pokemonRepository.loadList().then(() => {

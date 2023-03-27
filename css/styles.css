@@ -59,10 +59,17 @@
   text-align: left;
 }
 
-.modal-close {
+.details-close {
   float: right;
-  border: 0;
   background: none;
   color: #777;
   text-decoration: underline;
+  border-radius: 15%;
+}
+
+.details-close:hover {
+  background-color: deepskyblue;
+  color: rgb(34, 33, 33);
+  text-decoration: none;
+  cursor: pointer;
 }
