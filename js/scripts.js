@@ -59,7 +59,7 @@ let pokemonRepository = (() => {
   // Function to add a click event listener to each pokemon button
   let addClickListener = (button, pokemon) => {
     button.addEventListener("click", () => {
-      pokemonRepository.showDetails(pokemon);
+      showDetails(pokemon);
     });
   };
 
@@ -106,8 +106,7 @@ let pokemonRepository = (() => {
     addListItem,
     loadList,
     loadDetails,
-    addClickListener,
-    showDetails
+    addClickListener     
   };
 })();
 
