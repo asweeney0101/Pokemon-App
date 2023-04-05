@@ -10,52 +10,77 @@ let pokemonRepository = (() => {
     repository.push(pokemon);
   };
 
+ // Fetches the pokemon as objects from the API, adds them to the repository
+ let loadList = () => {
+  return fetch("https://pokeapi.co/api/v2/pokemon/")
+    .then(response => response.json())
+    .then(data => {
+      data.results.forEach(item => {
+        let pokemon = {
+          name: item.name,
+          detailsUrl: item.url,
+        };
+        add(pokemon);
+      });
+    })
+    .catch(error => {
+      console.error(error);
+    });
+};
+
+// Adds details of the pokemon to the item
+let loadDetails = item => {
+  return fetch(item.detailsUrl)
+    .then(response => response.json())
+    .then(pokemon => {
+      item.id = pokemon.id;
+      item.height = pokemon.height;
+      item.weight = pokemon.weight;
+      item.image = pokemon.sprites.front_default;
+      item.abilities = pokemon.abilities.map(ability => ability.ability.name);
+    })
+    .catch(errormessage => {
+      console.error(errormessage);
+    });
+};
+
+
   //  Creates list items with pokemon names on each, adds them to list
   let addListItem = pokemon => {
     let pokemonList = document.querySelector(".pokemon-list");
     let pokemonListItem = document.createElement("li");
+    pokemonListItem.classList.add("list-group-item");
     let button = document.createElement("button");
-    button.innerText = pokemon.name;
-    button.classList.add("pokemon-button");
+    button.classList.add("pokemon-button", "btn", "btn-primary", "btn-block", "d-flex", "align-items-center");
+    button.setAttribute("data-toggle", "modal");
+    button.setAttribute("data-target", ".modal");
+  
+    // Create an image placeholder
+    let pokemonImage = document.createElement("img");
+    pokemonImage.src = "https://via.placeholder.com/50";
+    pokemonImage.alt = `${pokemon.name} image`;
+    pokemonImage.width = 50;
+    pokemonImage.height = 50;
+    pokemonImage.classList.add("m-1");
+  
+    // Create a text node for the Pokemon name
+    let pokemonName = document.createTextNode(pokemon.name);
+  
+    // Append the image and name to the button
+    button.appendChild(pokemonImage);
+    button.appendChild(pokemonName);
+  
     pokemonListItem.appendChild(button);
     pokemonList.appendChild(pokemonListItem);
     pokemonRepository.addClickListener(button, pokemon);
+  
+    // Load the actual image after the names are loaded
+    pokemonRepository.loadDetails(pokemon).then(() => {
+      pokemonImage.src = pokemon.image;
+    });
   };
-
-  // Fetches the pokemon as objects from the API, adds them to the repository
-  let loadList = () => {
-    return fetch("https://pokeapi.co/api/v2/pokemon/")
-      .then(response => response.json())
-      .then(data => {
-        data.results.forEach(item => {
-          let pokemon = {
-            name: item.name,
-            detailsUrl: item.url,
-          };
-          add(pokemon);
-        });
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
-
-  // Adds details of the pokemon to the item
-  let loadDetails = item => {
-    return fetch(item.detailsUrl)
-      .then(response => response.json())
-      .then(pokemon => {
-        item.id = pokemon.id;
-        item.height = pokemon.height;
-        item.weight = pokemon.weight;
-        item.image = pokemon.sprites.front_default;
-        item.abilities = pokemon.abilities.map(ability => ability.ability.name);
-      })
-      .catch(errormessage => {
-        console.error(errormessage);
-      });
-  };
-
+  
+ 
   // Function to add a click event listener to each pokemon button
   let addClickListener = (button, pokemon) => {
     button.addEventListener("click", () => {
@@ -64,43 +89,21 @@ let pokemonRepository = (() => {
   };
 
     // Function to show details of a pokemon
-  let detailsContainer = document.querySelector("#details-container");
- 
+
   function showDetails(pokemon) {
     pokemonRepository.loadDetails(pokemon).then(() => {
-      let modalTitle = document.querySelector("#details-container h1");
-      let modalImage = document.querySelector("#details-container img");
-      let modalText = document.querySelector("#details-container p");
-      
+      let modalTitle = document.querySelector(".modal-title");
+      let modalImage = document.querySelector(".modal-body img");
+      let modalText = document.querySelector(".modal-body p");
+
       modalTitle.textContent = pokemon.name;
       modalImage.setAttribute("src", pokemon.image);
       modalText.innerHTML = `Height: ${pokemon.height} <br> Weight: ${pokemon.weight} <br> Abilities: ${pokemon.abilities.join(", ")}`;
-      
-      detailsContainer.classList.add("is-visible");
+     
     });
   };
   
-  function hideDetails() {
-    detailsContainer.classList.remove("is-visible");
-  };
-  
-  document.querySelector(".details-close").addEventListener("click", () => {
-    hideDetails();
-  });
-  
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && detailsContainer.classList.contains("is-visible")){
-      hideDetails();
-    }
-  });
-  
-  detailsContainer.addEventListener('click', (e) => {
-     if (e.target === detailsContainer) {
-      hideDetails();
-    }
-  });
-
-  return {
+   return {
     add,
     getAll,
     addListItem,
