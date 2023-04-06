@@ -1,6 +1,18 @@
 body {
   margin-left: 10px;
 }
+.navbar-brand.h1 {
+  font-size: 36px;
+  color: rgb(84, 237, 102);
+}
+
+.navbar {
+  background-color: navy;
+}
+
+.navbar-toggler {
+  border-color: white;
+}
 
 .pokemon-list {
   display: flex;
@@ -18,11 +30,20 @@ body {
   padding: 16px 32px;
   text-align: center;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 20px;
   margin: 4px 2px;
   cursor: pointer;
 }
 
 .pokemon-button:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
+}
+
+.modal-body p {
+  font-size: 20px;
+}
+
+.modal-body img {
+  width: 200px;
+  height: auto;
 }

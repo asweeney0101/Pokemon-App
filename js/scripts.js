@@ -57,10 +57,10 @@ let loadDetails = item => {
   
     // Create an image placeholder
     let pokemonImage = document.createElement("img");
-    pokemonImage.src = "https://via.placeholder.com/50";
+    pokemonImage.src = "https://via.placeholder.com/75";
     pokemonImage.alt = `${pokemon.name} image`;
-    pokemonImage.width = 50;
-    pokemonImage.height = 50;
+    pokemonImage.width = 75;
+    pokemonImage.height = 75;
     pokemonImage.classList.add("m-1");
   
     // Create a text node for the Pokemon name
@@ -120,4 +120,14 @@ pokemonRepository.loadList().then(() => {
   });
 });
 
+function getRandomPokemon() {
+  const pokemons = pokemonRepository.getAll();
+  const randomIndex = Math.floor(Math.random() * pokemons.length);
+  const randomPokemon = pokemons[randomIndex];
+  showDetails(randomPokemon);
+}
+
+
+
+$("#random-pokemon").on("click", getRandomPokemon);
 
