@@ -12,7 +12,7 @@ let pokemonRepository = (() => {
 
  // Fetches the pokemon as objects from the API, adds them to the repository
  let loadList = () => {
-  return fetch("https://pokeapi.co/api/v2/pokemon/")
+  return fetch("https://pokeapi.co/api/v2/pokemon/?limit=300")
     .then(response => response.json())
     .then(data => {
       data.results.forEach(item => {
@@ -48,8 +48,8 @@ let loadDetails = item => {
   //  Creates list items with pokemon names on each, adds them to list
   let addListItem = pokemon => {
     let pokemonList = document.querySelector(".pokemon-list");
-    let pokemonListItem = document.createElement("li");
-    pokemonListItem.classList.add("list-group-item");
+    let pokemonListItem = document.createElement("div");
+    pokemonListItem.classList.add("col-lg-3", "col-md-4", "col-sm-6", "mb-4"); 
     let button = document.createElement("button");
     button.classList.add("pokemon-button", "btn", "btn-primary", "btn-block", "d-flex", "align-items-center");
     button.setAttribute("data-toggle", "modal");
@@ -61,7 +61,7 @@ let loadDetails = item => {
     pokemonImage.alt = `${pokemon.name} image`;
     pokemonImage.width = 75;
     pokemonImage.height = 75;
-    pokemonImage.classList.add("m-1");
+    pokemonImage.classList.remove("m-1");
   
     // Create a text node for the Pokemon name
     let pokemonName = document.createTextNode(pokemon.name);
@@ -81,7 +81,7 @@ let loadDetails = item => {
   };
   
  
-  // Function to add a click event listener to each pokemon button
+  // Add a click event listener to each pokemon button
   let addClickListener = (button, pokemon) => {
     button.addEventListener("click", () => {
       showDetails(pokemon);
@@ -101,7 +101,7 @@ let loadDetails = item => {
       modalText.innerHTML = `Height: ${pokemon.height} <br> Weight: ${pokemon.weight} <br> Abilities: ${pokemon.abilities.join(", ")}`;
      
     });
-  };
+  }
   
    return {
     add,
@@ -120,14 +120,48 @@ pokemonRepository.loadList().then(() => {
   });
 });
 
-function getRandomPokemon() {
-  const pokemons = pokemonRepository.getAll();
-  const randomIndex = Math.floor(Math.random() * pokemons.length);
-  const randomPokemon = pokemons[randomIndex];
-  showDetails(randomPokemon);
+
+/* eslint-disable no-unused-vars */
+function sortPokemon(event, sortType) {
+ 
+  // Clear existing Pokémon list
+  let pokemonList = document.querySelector(".pokemon-list");
+  while (pokemonList.firstChild) {
+    pokemonList.removeChild(pokemonList.firstChild);
+  }
+
+  // Create a shallow copy of the Pokémon list
+  let sortedList = pokemonRepository.getAll().slice();
+
+  // Define sorting methods
+  switch (sortType) {
+    case "nameAZ":
+      sortedList.sort((a, b) => a.name.localeCompare(b.name));
+      break;
+    case "nameZA":
+      sortedList.sort((a, b) => b.name.localeCompare(a.name));
+      break;
+    case "heightTallest":
+      sortedList.sort((a, b) => b.height - a.height);
+      break;
+    case "heightShortest":
+      sortedList.sort((a, b) => a.height - b.height);
+      break;
+    case "weightHeaviest":
+      sortedList.sort((a, b) => b.weight - a.weight);
+      break;
+    case "weightLightest":
+      sortedList.sort((a, b) => a.weight - b.weight);
+      break;
+    default:
+      // Unsorted case
+      sortedList = pokemonRepository.getAll().slice();
+      break;
+  }
+  document.getElementById("sortDropdown").innerText = `Sort By: ${event.target.innerText}`;
+
+  // Display the sorted Pokémon list
+  sortedList.forEach(pokemon => {
+    pokemonRepository.addListItem(pokemon);
+  });
 }
-
-
-
-$("#random-pokemon").on("click", getRandomPokemon);
-
