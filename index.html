@@ -24,26 +24,33 @@
         </a>
     </nav>
 
-    <div class="container mt-4">
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                Sort By
-            </button>
-            <div class="dropdown-menu" aria-labelledby="sortDropdown">
-                <button class="dropdown-item" onclick="sortPokemon(event, 'unsorted')">Unsorted</button>
-                <button class="dropdown-item" onclick="sortPokemon(event, 'nameAZ')">Name (A-Z)</button>
-                <button class="dropdown-item" onclick="sortPokemon(event, 'nameZA')">Name (Z-A)</button>
-                <button class="dropdown-item" onclick="sortPokemon(event, 'heightTallest')">Height (Tallest
-                    First)</button>
-                <button class="dropdown-item" onclick="sortPokemon(event, 'heightShortest')">Height (Shortest
-                    First)</button>
-                <button class="dropdown-item" onclick="sortPokemon(event, 'weightHeaviest')">Weight (Heaviest
-                    First)</button>
-                <button class="dropdown-item" onclick="sortPokemon(event, 'weightLightest')">Weight (Lightest
-                    First)</button>
-
-
+    <div class="search-sort container">
+        <div class="search-container">
+            <div class="md-form active-cyan-2 mb-3">
+                <input class="form-control" type="text" placeholder="Search" aria-label="Search" id="searchInput">
+            </div>
+        </div>
+        <div class="sort-container">
+            <div class="container mt-4">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sort By
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="sortDropdown">
+                        <button class="dropdown-item" onclick="sortPokemon(event, 'unsorted')">Unsorted</button>
+                        <button class="dropdown-item" onclick="sortPokemon(event, 'nameAZ')">Name (A-Z)</button>
+                        <button class="dropdown-item" onclick="sortPokemon(event, 'nameZA')">Name (Z-A)</button>
+                        <button class="dropdown-item" onclick="sortPokemon(event, 'heightTallest')">Height (Tallest
+                            First)</button>
+                        <button class="dropdown-item" onclick="sortPokemon(event, 'heightShortest')">Height (Shortest
+                            First)</button>
+                        <button class="dropdown-item" onclick="sortPokemon(event, 'weightHeaviest')">Weight (Heaviest
+                            First)</button>
+                        <button class="dropdown-item" onclick="sortPokemon(event, 'weightLightest')">Weight (Lightest
+                            First)</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

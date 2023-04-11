@@ -14,10 +14,41 @@
 
 .navbar {
   background-color: navy;
+  display: flex;
+  justify-items: start;
 }
 
 body {
-  padding-top: 90px;
+  padding-top: 100px;
+}
+
+.search-sort {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-direction: row;
+}
+
+.search-container,
+.sort-container {
+  width: 25%;
+  text-align: center;
+  margin: 0;
+}
+
+.search-container {
+  margin-top: 20px;
+}
+
+.sort-container {
+  margin-top: -20px;
+  margin-right: 55px;
+}
+
+.sortDropdown {
+  background-color: aqua;
 }
 
 .pokemon-list {
@@ -52,4 +83,8 @@ body {
 .modal-body img {
   width: 200px;
   height: auto;
+}
+
+.hidden {
+  display: none;
 }

@@ -50,6 +50,7 @@ let loadDetails = item => {
     let pokemonList = document.querySelector(".pokemon-list");
     let pokemonListItem = document.createElement("div");
     pokemonListItem.classList.add("col-lg-3", "col-md-4", "col-sm-6", "mb-4"); 
+    pokemonListItem.setAttribute("data-name", pokemon.name);
     let button = document.createElement("button");
     button.classList.add("pokemon-button", "btn", "btn-primary", "btn-block", "d-flex", "align-items-center");
     button.setAttribute("data-toggle", "modal");
@@ -113,10 +114,26 @@ let loadDetails = item => {
   };
 })();
 
-
 pokemonRepository.loadList().then(() => {
   pokemonRepository.getAll().forEach(pokemon => {
     pokemonRepository.addListItem(pokemon);
+  });
+});
+
+//  Search bar 
+
+let searchInput = document.querySelector("#searchInput");
+searchInput.addEventListener("input", () => {
+  let searchQuery = searchInput.value.toLowerCase();
+  let pokemonList = pokemonRepository.getAll();
+
+  pokemonList.forEach(pokemon => {
+    let pokemonElement = document.querySelector('[data-name="' + pokemon.name + '"]');
+    if (pokemon.name.toLowerCase().includes(searchQuery)) {
+      pokemonElement.classList.remove("hidden");
+    } else {
+      pokemonElement.classList.add("hidden");
+    }
   });
 });
 
@@ -165,3 +182,4 @@ function sortPokemon(event, sortType) {
     pokemonRepository.addListItem(pokemon);
   });
 }
+
