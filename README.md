@@ -14,3 +14,6 @@ To build a small web application that loads data from an external API and enable
 HTML, CSS, and Javascript.  
 Data is loaded and parsed from the <a href="https://pokeapi.co/" target="_blank">pokeAPI</a>  
 Layout is created with <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a>
+
+Project is hosted on Github Pages.
+<a href="https://asweeney0101.github.io/Pokemon-App/">Project Link</a>
